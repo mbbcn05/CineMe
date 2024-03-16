@@ -82,7 +82,9 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     implementation(libs.androidx.room.ktx)
     implementation (libs.exoplayer.v2181)
-
+//Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
 
 }
 
