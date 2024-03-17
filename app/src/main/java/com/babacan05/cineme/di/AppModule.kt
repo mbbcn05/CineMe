@@ -1,7 +1,7 @@
 package com.babacan05.cineme.di
 
-import com.babacan05.cineme.feature_movie.data.repository.IMDBApiService
-import com.babacan05.cineme.feature_movie.domain.repository.SearchMoviesRepository
+import com.babacan05.cineme.feature_movie.data.data_source.remote.movie_detail.MovieApiDataSource
+import com.babacan05.cineme.feature_movie.data.data_source.remote.movie_detail.MovieApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,13 +25,17 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofitService(okHttpClient: OkHttpClient) = Retrofit.Builder()
+    fun provideMovieApiService(okHttpClient: OkHttpClient): MovieApiService = Retrofit.Builder()
         .baseUrl("https://imdb8.p.rapidapi.com")
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
-        .build().create(SearchMoviesRepository::class.java)
+        .build().create(MovieApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMovieApiDataSource(service: MovieApiService): MovieApiDataSource {
+        return MovieApiDataSource(service)
+    }
+
 
 }
-
-
-

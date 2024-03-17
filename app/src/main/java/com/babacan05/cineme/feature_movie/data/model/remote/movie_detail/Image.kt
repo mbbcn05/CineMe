@@ -1,4 +1,4 @@
-package com.babacan05.cineme.feature_movie.domain.model.search_movies_results
+package com.babacan05.cineme.feature_movie.data.model.remote.movie_detail
 
 data class Image(
     val height: Int,

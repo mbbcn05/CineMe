@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id ("kotlin-kapt")
 }
 
 android {
@@ -71,9 +72,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     // for Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+   // implementation(libs.hilt.android)
+    //kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.fragment)
+    implementation(libs.hilt.android.v248)
+    kapt(libs.hilt.android.compiler.v248)
 //Room
     val room_version = "2.6.1"
 
@@ -82,9 +85,17 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     implementation(libs.androidx.room.ktx)
     implementation (libs.exoplayer.v2181)
+
 //Retrofit
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+
+
+    implementation (libs.kotlinx.coroutines.play.services)
+    implementation (libs.kotlin.stdlib.jdk8)
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
+    implementation (libs.coil.compose)
 
 }
 

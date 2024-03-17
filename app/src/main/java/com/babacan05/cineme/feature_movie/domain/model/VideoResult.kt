@@ -1,4 +1,5 @@
 package com.babacan05.cineme.feature_movie.domain.model
 
-import androidx.room.Entity
-
+data class VideoResult(
+    val name:String
+)

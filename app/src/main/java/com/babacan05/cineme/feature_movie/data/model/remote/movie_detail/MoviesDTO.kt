@@ -1,6 +1,6 @@
-package com.babacan05.cineme.feature_movie.domain.model.search_movies_results
+package com.babacan05.cineme.feature_movie.data.model.remote.movie_detail
 
-data class SearchResult(
+data class MoviesDTO(
     val d: List<Content>,
     val q: String,
     val v: Int

@@ -1,16 +1,23 @@
 [versions]
 agp = "8.3.0"
+coilCompose = "2.5.0"
 composeVideo = "2.18.1"
 converterGson = "2.9.0"
 exoplayer = "2.19.1"
 exoplayerVersion = "2.18.1"
 hiltAndroid = "2.51"
+hiltAndroidCompiler = "2.48"
+hiltAndroidVersion = "2.48"
 hiltNavigationFragment = "1.2.0"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
+kotlinStdlibJdk8 = "1.9.21"
+kotlinxCoroutinesAndroid = "1.8.0"
+kotlinxCoroutinesCore = "1.8.0"
+kotlinxCoroutinesPlayServices = "1.7.3"
 lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.8.2"
 composeBom = "2023.08.00"
@@ -24,12 +31,15 @@ androidx-hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fr
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 compose-video = { module = "com.google.android.exoplayer:compose-video", version.ref = "composeVideo" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 exoplayer = { module = "com.google.android.exoplayer:exoplayer", version.ref = "exoplayer" }
 exoplayer-v2181 = { module = "com.google.android.exoplayer:exoplayer", version.ref = "exoplayerVersion" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
+hilt-android-compiler-v248 = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+hilt-android-v248 = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -44,6 +54,10 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-media3-common = { group = "androidx.media3", name = "media3-common", version.ref = "media3Common" }
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlinStdlibJdk8" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]
