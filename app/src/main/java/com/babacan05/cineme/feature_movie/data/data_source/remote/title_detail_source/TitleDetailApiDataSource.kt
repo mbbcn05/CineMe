@@ -3,22 +3,23 @@ package com.babacan05.cineme.feature_movie.data.data_source.remote.title_detail_
 
 import com.babacan05.cineme.feature_movie.domain.util.DataResult
 import com.babacan05.cineme.feature_movie.data.model.remote.title_detail.TitleDetailDTO
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class TitleDetailApiDataSource@Inject constructor(val service: TitleDetailApiService) {
-    suspend fun responseTitleDetailRetrofit(search: String): DataResult<TitleDetailDTO> {
+    suspend fun responseTitleDetailRetrofit(search: String): Flow<DataResult<TitleDetailDTO>> = flow{
 
 
         try {
             val response = service.getTitleDetails(search)
-            return DataResult.Success(response)
+            emit(DataResult.Success(response))
 
 
         } catch (e: Exception) {
-            return DataResult.Error(e.message ?: "Unknown error")
+            emit(DataResult.Error(e.message ?: "Unknown error"))
 
         }
 
-
     }
-}
+    }
