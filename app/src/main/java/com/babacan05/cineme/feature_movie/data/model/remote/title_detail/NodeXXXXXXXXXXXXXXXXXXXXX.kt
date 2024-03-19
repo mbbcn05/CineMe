@@ -5,6 +5,5 @@ data class NodeXXXXXXXXXXXXXXXXXXXXX(
     val contentType: ContentTypeX,
     val id: String,
     val name: NameXXXXXXX,
-    val runtime: RuntimeXXX,
-    val thumbnail: ThumbnailX
+
 )

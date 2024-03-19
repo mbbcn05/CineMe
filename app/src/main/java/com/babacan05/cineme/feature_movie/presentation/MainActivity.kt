@@ -82,9 +82,9 @@ class MainActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.height(16.dp))
 
                         LaunchedEffect(true) {
-                            val response = searchMoviesImpl.getMovies("Bücür Cadı")
+                            val response = searchMoviesImpl.getTitles("Bücür Cadı")
                             list.clear()
-                           response.movieList.forEach{list.add(it.imageUrl)}
+
                         }
 
                         LazyColumn {

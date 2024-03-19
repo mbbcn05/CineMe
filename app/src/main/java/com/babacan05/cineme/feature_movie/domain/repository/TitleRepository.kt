@@ -1,8 +1,9 @@
 package com.babacan05.cineme.feature_movie.domain.repository
 
-import com.babacan05.cineme.feature_movie.domain.model.Title
+import com.babacan05.cineme.feature_movie.domain.util.DataResult
+import com.babacan05.cineme.feature_movie.domain.model.Titles
 
 
 interface TitleRepository {
-    suspend fun getMovies(search:String): Title
+    suspend fun getTitles(search:String): DataResult<Titles>
 }

@@ -5,8 +5,8 @@ import com.babacan05.cineme.feature_movie.domain.model.Title
 import com.babacan05.cineme.feature_movie.domain.model.Titles
 
 
-object TitleMapper {
-    fun mapMoviesDTOToTitle(moviesDTO: TitleDTO): Titles {
+
+    fun mapTitleDTOToTitle(moviesDTO: TitleDTO): Titles {
         return Titles(
             searchedText = moviesDTO.q,
             movieList=moviesDTO.d.map {
@@ -19,5 +19,5 @@ object TitleMapper {
 
 
         )
-    }
+
 }
