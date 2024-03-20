@@ -2,16 +2,23 @@ package com.babacan05.cineme.feature_movie.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
-@Entity
+@Entity(tableName = "table_title")
 data class Titles(
-    @PrimaryKey val searchedText:String,
+    @PrimaryKey(autoGenerate = false) val searchedText:String,
     val movieList:List<Title>
 
 )
-@Entity
+
 data class Title(
-    val id:String,
+    @PrimaryKey (autoGenerate = false) val id:String,
     val name:String,
     val imageUrl:String
 )
+
+
+
+

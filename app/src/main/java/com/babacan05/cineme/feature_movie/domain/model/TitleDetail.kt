@@ -2,10 +2,13 @@ package com.babacan05.cineme.feature_movie.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
-@Entity
+@Entity(tableName = "table_detail")
 data class TitleDetail(
-    @PrimaryKey val id:String,
+    @PrimaryKey (autoGenerate = false)val id:String,
     val name:String,
     val cast:List<Actor>,
     val imageUrl:String,
@@ -18,19 +21,19 @@ data class TitleDetail(
     val moreTitles:List<MoreLikeTitle>,
     val director:String,
     val favoured:Boolean=false
-    )
-@Entity
+)
+
 data class Actor(
    // val id:String, ilerde aktore basınca özelliği getirilebilir
-    val name:String,
+    @PrimaryKey  (autoGenerate = false) val name:String,
     val imageUrl:String,
     val character:String,
 
 
 )
-@Entity
+
 data class MoreLikeTitle(
-    val id: String,
+    @PrimaryKey (autoGenerate = false) val id: String,
     val name: String,
     val imageUrl: String,
     val ratingsSummary: Double,

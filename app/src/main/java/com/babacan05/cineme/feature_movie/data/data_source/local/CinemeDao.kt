@@ -11,14 +11,14 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CinemeDao {
 
-    @Query("SELECT * FROM titledetail WHERE favoured=1")
+    @Query("SELECT * FROM table_detail WHERE favoured=1")
     fun getFavouredTitles(): Flow<List<TitleDetail>>
 
-    @Query("SELECT * FROM tıtles WHERE searchedText =:search")
-    suspend fun getTitlesBySearch(search: String)
+    @Query("SELECT * FROM table_title WHERE searchedText =:search")
+    suspend fun getTitlesBySearch(search: String):Titles
 
-     @Query("SELECT * FROM titledetail WHERE id=:id")
-      suspend fun getTitleDetailById(id:String)
+     @Query("SELECT * FROM table_detail WHERE id=:id")
+      suspend fun getTitleDetailById(id:String):TitleDetail
 
       @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTitleDetail(titleDetail: TitleDetail)
