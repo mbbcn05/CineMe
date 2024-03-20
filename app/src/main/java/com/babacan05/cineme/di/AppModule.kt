@@ -1,9 +1,15 @@
 package com.babacan05.cineme.di
 
+import android.app.Application
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.babacan05.cineme.feature_movie.data.data_source.local.CinemeDataBase
 import com.babacan05.cineme.feature_movie.data.data_source.remote.title_detail_source.TitleDetailApiDataSource
 import com.babacan05.cineme.feature_movie.data.data_source.remote.title_source.TitleApiDataSource
 import com.babacan05.cineme.feature_movie.data.data_source.remote.title_source.TitleApiService
 import com.babacan05.cineme.feature_movie.data.data_source.remote.title_detail_source.TitleDetailApiService
+import com.babacan05.cineme.feature_movie.data.repository.CinemeRepositoryImpl
+import com.babacan05.cineme.feature_movie.domain.repository.CinemeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,13 +17,12 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModuleTitle {
+class CinemeAppModule {
 
     @Provides
     @Singleton
@@ -53,6 +58,39 @@ class NetworkModuleTitle {
     fun provideTitleDetailApiDataSource(service: TitleDetailApiService): TitleDetailApiDataSource {
         return TitleDetailApiDataSource(service)
     }
+
+    @Provides
+    @Singleton
+    fun provideNoteDatabase(app: Application): CinemeDataBase {
+        return Room.databaseBuilder(
+            app,
+           CinemeDataBase::class.java,
+            CinemeDataBase.DATABASE_NAME
+        ).build()
+    }
+
+
+
+
+
+    @Provides
+    @Singleton
+    fun provideCinemeRepository(titleApiDataSource: TitleApiDataSource,
+                                titleDetailApiDataSource: TitleDetailApiDataSource,
+                                db: CinemeDataBase): CinemeRepository {
+        return CinemeRepositoryImpl(titleDetailApiDataSource,titleApiDataSource,db.cinemeDao)
+    }
+
+   // @Provides
+   // @Singleton
+   // fun provideCinemeUseCases(repository: CinemeRepository): CinemeUseCases {
+    //    return NoteUseCases(
+    //        getCineme = GetCineme(repository),
+     //       deleteCineme = DeleteCineme(repository),
+      //      addCineme = AddCineme(repository),
+       //     getCineme = GetCineme(repository)
+       // )
+   // }
 
 }
 

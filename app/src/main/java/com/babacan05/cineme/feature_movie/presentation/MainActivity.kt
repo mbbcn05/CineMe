@@ -28,6 +28,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 
@@ -46,17 +47,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.babacan05.cineme.feature_movie.data.repository.TitleRepositoryImpl
+import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
+import com.babacan05.cineme.feature_movie.domain.repository.CinemeRepository
+import com.babacan05.cineme.feature_movie.domain.util.DataResult
+import com.babacan05.cineme.feature_movie.presentation.components.VideoPlayerExo2
 
 import com.babacan05.cineme.ui.theme.CineMeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.map
+import java.util.concurrent.Flow
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
-    lateinit var searchMoviesImpl: TitleRepositoryImpl
+    lateinit var cinemeRepository: CinemeRepository
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,32 +72,43 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    var search by rememberSaveable {
-                        mutableStateOf("")
+                    var detailFlow by remember {
+                        mutableStateOf<DataResult<TitleDetail>>(DataResult.Error(message="Yükleniyor"))
                     }
-                    val list = remember { mutableStateListOf<String>() }
+
+
 
                     Column(modifier = Modifier.padding(16.dp)) {
-                        OutlinedTextField(
-                            value = search,
-                            onValueChange = { search = it },
-                            label = { Text("Search") },
-                            modifier = Modifier.fillMaxWidth()
-                        )
+
 
                         Spacer(modifier = Modifier.height(16.dp))
 
+                        when(detailFlow){
+                            is DataResult.Error ->  Text(text = (detailFlow as DataResult.Error).message)
+                            is DataResult.Success -> VideoPlayerExo2(videoUrl = (detailFlow as DataResult.Success<TitleDetail>).data.videoUrl)
+                        }
+
+
                         LaunchedEffect(true) {
-                            val response = searchMoviesImpl.getTitles("Bücür Cadı")
-                            list.clear()
+                            cinemeRepository.getTitleDetail("tt0926084").collect { result ->
+                                when (result) {
+                                    is DataResult.Success -> {
+                                       println(result.data.videoUrl)
+                                       detailFlow=result
+                                        // titleDetail ile yapılacak işlemler
+                                    }
+                                    is DataResult.Error -> {
+                                        // Hata durumu
 
-                        }
-
-                        LazyColumn {
-                            items(list) { movie ->
-                                MovieItem(movie)
+                                        // Hata ile yapılacak işlemler
+                                    }
+                                }
                             }
+
+
                         }
+
+
                     }
                 }
             }

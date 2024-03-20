@@ -2,7 +2,7 @@ package com.babacan05.cineme.feature_movie.domain.util
 
 import com.babacan05.cineme.feature_movie.data.model.remote.title_detail.TitleDetailDTO
 import com.babacan05.cineme.feature_movie.domain.model.Actor
-import com.babacan05.cineme.feature_movie.domain.model.Title
+import com.babacan05.cineme.feature_movie.domain.model.MoreLikeTitle
 import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
 
 
@@ -25,10 +25,11 @@ import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
             review = titleDetailDTO.featuredReviews.edges[0].node.text.originalText.plainText,
             genres = titleDetailDTO.genres.genres.map { it.text },
             moreTitles =titleDetailDTO.moreLikeThisTitles.edges.map {
-                    Title(
-                        id=it.node.id,
+                    MoreLikeTitle(
+                        id =it.node.id,
                         name = it.node.titleText.text,
-                        imageUrl = it.node.primaryImage) },
+                       imageUrl = it.node.primaryImage.url,
+                        ratingsSummary = it.node.ratingsSummary.aggregateRating) },
             director = titleDetailDTO.directors.flatMap {
                 it.credits
             }.joinToString(separator = ",") { it.name.nameText.text }
