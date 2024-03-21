@@ -15,10 +15,10 @@ interface CinemeDao {
     fun getFavouredTitles(): Flow<List<TitleDetail>>
 
     @Query("SELECT * FROM table_title WHERE searchedText =:search")
-    suspend fun getTitlesBySearch(search: String):Titles
+    suspend fun getTitlesBySearch(search: String):Titles?
 
      @Query("SELECT * FROM table_detail WHERE id=:id")
-      suspend fun getTitleDetailById(id:String):TitleDetail
+      suspend fun getTitleDetailById(id:String):TitleDetail?
 
       @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTitleDetail(titleDetail: TitleDetail)

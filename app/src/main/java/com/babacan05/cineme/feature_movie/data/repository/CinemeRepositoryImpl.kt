@@ -8,47 +8,67 @@ import com.babacan05.cineme.feature_movie.domain.model.Titles
 import com.babacan05.cineme.feature_movie.domain.repository.CinemeRepository
 import com.babacan05.cineme.feature_movie.domain.util.DataResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CinemeRepositoryImpl @Inject constructor(
     private val titleDetailApiDataSource: TitleDetailApiDataSource,
     private val titleApiDataSource: TitleApiDataSource,
-   val cinemeDao: CinemeDao
+    private val cinemeDao: CinemeDao
 ): CinemeRepository {
+
     override suspend fun getTitles(search: String): Flow<DataResult<Titles>> {
-        return titleApiDataSource.responseTitleRetrofit(search).map { result ->
-            when (result) {
-                is DataResult.Success -> {
-                    // Veri başarılı şekilde geldiyse, veritabanına ekle
-                    cinemeDao.insertTitles(result.data)
-                    // Veriyi başarılı şekilde işlediğimizi belirtmek için geri döndürelim
-                    DataResult.Success(result.data)
-                }
-                is DataResult.Error -> {
-                    println("Veri alınamadı:")
-                    // Hata olduğunu belirtmek için geri döndürelim
-                    result
+        val daoResult=cinemeDao.getTitlesBySearch(search)
+        if(daoResult==null){
+            println("veri remotede geldi titles")
+
+            return titleApiDataSource.responseTitleRetrofit(search).map { result ->
+                when (result) {
+                    is DataResult.Success -> {
+                        cinemeDao.insertTitles(result.data)
+                        DataResult.Success(result.data)
+                    }
+                    is DataResult.Error -> {
+                        result
+                    }
                 }
             }
+
+
+        }else{
+            return flow {
+                emit(DataResult.Success(daoResult))
+                println("veri localden geldi")
+            }
         }
+
     }
 
-    override suspend fun getTitleDetail(search: String): Flow<DataResult<TitleDetail>> {
-        return titleDetailApiDataSource.responseTitleDetailRetrofit(search).map { result ->
+    override suspend fun getTitleDetail(id: String): Flow<DataResult<TitleDetail>> {
+
+        val daoResult=cinemeDao.getTitleDetailById(id)
+        if(daoResult==null){
+            println("veri remotede geldi")
+        return titleDetailApiDataSource.responseTitleDetailRetrofit(id).map { result ->
             when (result) {
                 is DataResult.Success -> {
-                    // Veri başarılı şekilde geldiyse, veritabanına ekle
                     cinemeDao.insertTitleDetail(result.data)
-                    // Veriyi başarılı şekilde işlediğimizi belirtmek için geri döndürelim
                     DataResult.Success(result.data)
                 }
                 is DataResult.Error -> {
-                    println("Veri alınamadı: ")
-                    // Hata olduğunu belirtmek için geri döndürelim
+
                     result
                 }
             }
         }
-    }
-    }
+    }else {
+            return flow {
+                emit(DataResult.Success(daoResult))
+                println(daoResult.videoUrl)
+                println("veri localden geldi")
+            }
+
+        }
+        }
+}

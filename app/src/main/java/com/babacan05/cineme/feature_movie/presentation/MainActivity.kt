@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
+import com.babacan05.cineme.feature_movie.domain.model.Titles
 import com.babacan05.cineme.feature_movie.domain.repository.CinemeRepository
 import com.babacan05.cineme.feature_movie.domain.util.DataResult
 import com.babacan05.cineme.feature_movie.presentation.components.VideoPlayerExo2
@@ -76,7 +77,9 @@ class MainActivity : ComponentActivity() {
                         mutableStateOf<DataResult<TitleDetail>>(DataResult.Error(message="Yükleniyor"))
                     }
 
-
+var titles by remember {
+    mutableStateOf<DataResult<Titles>>(DataResult.Error(message="Yükleniyor"))
+}
 
                     Column(modifier = Modifier.padding(16.dp)) {
 
@@ -85,11 +88,36 @@ class MainActivity : ComponentActivity() {
 
                         when(detailFlow){
                             is DataResult.Error ->  Text(text = (detailFlow as DataResult.Error).message)
-                            is DataResult.Success -> VideoPlayerExo2(videoUrl = (detailFlow as DataResult.Success<TitleDetail>).data.videoUrl)
+                            is DataResult.Success ->
+
+                               VideoPlayerExo2(videoUrl = (detailFlow as DataResult.Success<TitleDetail>).data.videoUrl)
                         }
 
-
+                        when (titles) {
+                            is DataResult.Success -> {
+                                LazyColumn {
+                                    items((titles as DataResult.Success<Titles>).data.movieList) { title ->
+                                       MovieItem(movie = title.imageUrl)
+                                    }
+                                }
+                            }
+                            is DataResult.Error -> {
+                                // Hata durumunu işle
+                            }
+                        }
                         LaunchedEffect(true) {
+                            cinemeRepository.getTitles("harry").collect{
+                                when(it){
+                                    is DataResult.Success -> {
+                                        titles=it
+                                    }
+                                    is DataResult.Error -> {
+
+                                    }
+
+                                }
+
+                            }
                             cinemeRepository.getTitleDetail("tt0926084").collect { result ->
                                 when (result) {
                                     is DataResult.Success -> {
@@ -140,10 +168,7 @@ fun MovieItem(movie: String) {
                     .clip(CircleShape)
             )
             Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = movie,
 
-            )
         }
     }
 }
