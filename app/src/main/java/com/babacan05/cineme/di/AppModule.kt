@@ -2,18 +2,20 @@ package com.babacan05.cineme.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.babacan05.cineme.feature_movie.data.data_source.local.CinemeDataBase
 import com.babacan05.cineme.feature_movie.data.data_source.remote.title_detail_source.TitleDetailApiDataSource
 import com.babacan05.cineme.feature_movie.data.data_source.remote.title_source.TitleApiDataSource
 import com.babacan05.cineme.feature_movie.data.data_source.remote.title_source.TitleApiService
 import com.babacan05.cineme.feature_movie.data.data_source.remote.title_detail_source.TitleDetailApiService
+import com.babacan05.cineme.feature_movie.data.data_source.remote.top_100.Top100ApiDataSource
+import com.babacan05.cineme.feature_movie.data.data_source.remote.top_100.Top100ApiService
 import com.babacan05.cineme.feature_movie.data.repository.CinemeRepositoryImpl
 import com.babacan05.cineme.feature_movie.domain.repository.CinemeRepository
 import com.babacan05.cineme.feature_movie.domain.use_case.CinemeUseCases
-import com.babacan05.cineme.feature_movie.domain.use_case.GetFavouredTitles
+import com.babacan05.cineme.feature_movie.domain.use_case.GetFavouredTitleIds
 import com.babacan05.cineme.feature_movie.domain.use_case.GetTitleDetail
 import com.babacan05.cineme.feature_movie.domain.use_case.GetTitles
+import com.babacan05.cineme.feature_movie.domain.use_case.GetTop100Title
 import com.babacan05.cineme.feature_movie.domain.use_case.UpdateFavouredTitle
 import dagger.Module
 import dagger.Provides
@@ -63,6 +65,21 @@ class CinemeAppModule {
     fun provideTitleDetailApiDataSource(service: TitleDetailApiService): TitleDetailApiDataSource {
         return TitleDetailApiDataSource(service)
     }
+    @Provides
+    @Singleton
+    fun provideTop100ApiService(okHttpClient: OkHttpClient):Top100ApiService=Retrofit.Builder()
+        .baseUrl("https://imdb-top-100-movies.p.rapidapi.com/")
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build().create(Top100ApiService::class.java)
+
+
+    @Provides
+    @Singleton
+    fun provideTop100ApiDataSource(service: Top100ApiService): Top100ApiDataSource {
+        return Top100ApiDataSource(service)
+    }
+
 
     @Provides
     @Singleton
@@ -81,9 +98,9 @@ class CinemeAppModule {
     @Provides
     @Singleton
     fun provideCinemeRepository(titleApiDataSource: TitleApiDataSource,
-                                titleDetailApiDataSource: TitleDetailApiDataSource,
+                                titleDetailApiDataSource: TitleDetailApiDataSource,top100ApiDataSource: Top100ApiDataSource,
                                 db: CinemeDataBase): CinemeRepository {
-        return CinemeRepositoryImpl(titleDetailApiDataSource,titleApiDataSource,db.cinemeDao)
+        return CinemeRepositoryImpl(titleDetailApiDataSource,titleApiDataSource,top100ApiDataSource,db.cinemeDao)
     }
 
     @Provides
@@ -93,7 +110,8 @@ class CinemeAppModule {
            getTitles = GetTitles(repository),
             getTitleDetail = GetTitleDetail(repository),
             updateFavouredTitle = UpdateFavouredTitle(repository),
-            getFavouredTitleIds=Get
+            getFavouredTitleIds= GetFavouredTitleIds(repository),
+            getTop100Title = GetTop100Title(repository)
         )
     }
 

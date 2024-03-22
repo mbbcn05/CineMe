@@ -4,5 +4,6 @@ data class CinemeUseCases(
     val getTitles: GetTitles,
    val getTitleDetail:GetTitleDetail,
     val updateFavouredTitle: UpdateFavouredTitle,
-    val getFavouredIds: GetFavouredIds
+    val getFavouredTitleIds: GetFavouredTitleIds,
+    val getTop100Title: GetTop100Title
 )

@@ -2,9 +2,6 @@ package com.babacan05.cineme.feature_movie.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 @Entity(tableName = "table_title")
 data class Titles(
@@ -13,10 +10,14 @@ data class Titles(
 
 )
 
+@Entity(tableName = "title_top100")
 data class Title(
     @PrimaryKey (autoGenerate = false) val id:String,
     val name:String,
-    val imageUrl:String
+    val imageUrl:String,
+    val rank: Double =0.0,
+    val description:String="",
+   val year:Int=0
 )
 
 @Entity(tableName ="title_favoured_table")

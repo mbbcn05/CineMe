@@ -6,14 +6,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Upsert
-import com.babacan05.cineme.feature_movie.domain.model.FavouredTitles
+import com.babacan05.cineme.feature_movie.domain.model.FavouredTitle
+import com.babacan05.cineme.feature_movie.domain.model.Title
 import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
 import com.babacan05.cineme.feature_movie.domain.model.Titles
 import kotlinx.coroutines.flow.Flow
 @Dao
 interface CinemeDao {
 
-    @Query("SELECT * FROM title_favoured_table WHERE favoured=1")
+    @Query("SELECT ID FROM title_favoured_table WHERE favoured=1")
     fun getFavouredTitleIds(): Flow<List<String>>
 
     @Query("SELECT * FROM table_title WHERE searchedText =:search")
@@ -29,5 +30,11 @@ interface CinemeDao {
     suspend fun insertTitles(titles: Titles)
 
     @Upsert
-    suspend fun updateFavouredTitle(titles: FavouredTitles)
+    suspend fun updateFavouredTitle(titles: FavouredTitle)
+
+    @Query("SELECT * FROM title_top100 ")
+    suspend fun getTop100Title(): Flow<List<Title>>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertTop100Title(title: Title)
 }
