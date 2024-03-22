@@ -1,5 +1,6 @@
 package com.babacan05.cineme.feature_movie.domain.repository
 
+import com.babacan05.cineme.feature_movie.domain.model.FavouredTitles
 import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
 import com.babacan05.cineme.feature_movie.domain.model.Titles
 import com.babacan05.cineme.feature_movie.domain.util.DataResult
@@ -9,4 +10,6 @@ interface CinemeRepository {
   suspend  fun getTitles(search: String): Flow<DataResult<Titles>>
   suspend  fun getTitleDetail(search:String):Flow<DataResult<TitleDetail>>
 
+    suspend fun getFavouredTitleIdList(): Flow<List<String>>
+  suspend fun updateFavouredTitleID(favouredTitles: FavouredTitles)
 }

@@ -20,7 +20,6 @@ data class TitleDetail(
     val genres:List<String>,
     val moreTitles:List<MoreLikeTitle>,
     val director:String,
-    val favoured:Boolean=false
 )
 
 data class Actor(

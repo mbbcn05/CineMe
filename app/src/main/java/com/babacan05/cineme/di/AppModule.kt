@@ -10,6 +10,11 @@ import com.babacan05.cineme.feature_movie.data.data_source.remote.title_source.T
 import com.babacan05.cineme.feature_movie.data.data_source.remote.title_detail_source.TitleDetailApiService
 import com.babacan05.cineme.feature_movie.data.repository.CinemeRepositoryImpl
 import com.babacan05.cineme.feature_movie.domain.repository.CinemeRepository
+import com.babacan05.cineme.feature_movie.domain.use_case.CinemeUseCases
+import com.babacan05.cineme.feature_movie.domain.use_case.GetFavouredTitles
+import com.babacan05.cineme.feature_movie.domain.use_case.GetTitleDetail
+import com.babacan05.cineme.feature_movie.domain.use_case.GetTitles
+import com.babacan05.cineme.feature_movie.domain.use_case.UpdateFavouredTitle
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -81,16 +86,16 @@ class CinemeAppModule {
         return CinemeRepositoryImpl(titleDetailApiDataSource,titleApiDataSource,db.cinemeDao)
     }
 
-   // @Provides
-   // @Singleton
-   // fun provideCinemeUseCases(repository: CinemeRepository): CinemeUseCases {
-    //    return NoteUseCases(
-    //        getCineme = GetCineme(repository),
-     //       deleteCineme = DeleteCineme(repository),
-      //      addCineme = AddCineme(repository),
-       //     getCineme = GetCineme(repository)
-       // )
-   // }
+    @Provides
+    @Singleton
+    fun provideCinemeUseCases(repository: CinemeRepository): CinemeUseCases {
+        return CinemeUseCases(
+           getTitles = GetTitles(repository),
+            getTitleDetail = GetTitleDetail(repository),
+            updateFavouredTitle = UpdateFavouredTitle(repository),
+            getFavouredTitleIds=Get
+        )
+    }
 
 }
 
