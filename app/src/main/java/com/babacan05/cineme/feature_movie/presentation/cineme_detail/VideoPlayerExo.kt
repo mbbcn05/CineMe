@@ -1,4 +1,4 @@
-package com.babacan05.cineme.feature_movie.presentation.components
+package com.babacan05.cineme.feature_movie.presentation.cineme_detail
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,7 +16,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.babacan05.cineme.feature_movie.presentation.utils.isVideoUrlValid
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView

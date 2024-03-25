@@ -10,7 +10,7 @@ import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
 import com.babacan05.cineme.feature_movie.domain.model.Titles
 
 @Database(
-    entities = [Titles::class,TitleDetail::class, FavouredTitle::class,],
+    entities = [Titles::class,TitleDetail::class, FavouredTitle::class,Title::class],
     version = 1
 )
 @TypeConverters(TitleListConverter::class,ActorListConverter::class,

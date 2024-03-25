@@ -9,8 +9,7 @@ data class Titles(
     val movieList:List<Title>
 
 )
-
-@Entity(tableName = "title_top100")
+@Entity(tableName = "title")
 data class Title(
     @PrimaryKey (autoGenerate = false) val id:String,
     val name:String,
@@ -23,7 +22,7 @@ data class Title(
 @Entity(tableName ="title_favoured_table")
 data class FavouredTitle(
     @PrimaryKey(autoGenerate = true) val id:Int,
-    val titleId:String,
+    val titleId:String="",
     val favoured:Boolean=false
 
 )

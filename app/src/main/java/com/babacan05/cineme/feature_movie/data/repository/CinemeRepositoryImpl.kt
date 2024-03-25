@@ -12,6 +12,7 @@ import com.babacan05.cineme.feature_movie.domain.repository.CinemeRepository
 import com.babacan05.cineme.feature_movie.domain.util.DataResult
 import com.babacan05.cineme.feature_movie.domain.util.mapTop100DTOToTitle
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -49,7 +50,6 @@ class CinemeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTitleDetail(id: String): Flow<DataResult<TitleDetail>> {
-
         val daoResult=cinemeDao.getTitleDetailById(id)
         if(daoResult==null){
         return titleDetailApiDataSource.responseTitleDetailRetrofit(id).map { result ->
@@ -59,12 +59,13 @@ class CinemeRepositoryImpl @Inject constructor(
                     DataResult.Success(result.data)
                 }
                 is DataResult.Error -> {
-
                     result
                 }
             }
         }
     }else {
+            println(daoResult.videoUrl)
+
             return flow {
                 emit(DataResult.Success(daoResult))
             }
@@ -72,23 +73,20 @@ class CinemeRepositoryImpl @Inject constructor(
         }
         }
 
+
     override suspend fun getTop100Title():Flow<List<Title>>{
-        val dataResult=cinemeDao.getTop100Title()
-if(dataResult==null){
-    return flow {
-        val apiResult= top100ApiDataSource.top100ApiRetrofit().map { mapTop100DTOToTitle(it) }
-        apiResult.forEach{cinemeDao.insertTop100Title(it)}
-        emit(apiResult)
+        return cinemeDao.getTop100Title().map { dataResult ->
+            if (dataResult.isNullOrEmpty()) {
+                val apiResult = top100ApiDataSource.top100ApiRetrofit().map { mapTop100DTOToTitle(it) }
+                apiResult.forEach { cinemeDao.insertTop100Title(it) }
+                apiResult
+            } else {
+                dataResult
+            }
+        }
     }
 
 
-
-}else{
-    return dataResult
-
-}
-
-    }
 
     override suspend fun getFavouredTitleIdList():Flow<List<String>> =cinemeDao.getFavouredTitleIds()
     override suspend fun updateFavouredTitleID(favouredTitle: FavouredTitle){

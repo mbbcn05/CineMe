@@ -11,7 +11,6 @@ class GetTitleDetail (private val cinemeRepository: CinemeRepository){
     suspend  operator fun invoke(search:String
     ): Flow<DataResult<TitleDetail>> {
 
-
         return cinemeRepository.getTitleDetail(search)
 
 

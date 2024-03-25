@@ -69,6 +69,7 @@ class CinemeAppModule {
     @Singleton
     fun provideTop100ApiService(okHttpClient: OkHttpClient):Top100ApiService=Retrofit.Builder()
         .baseUrl("https://imdb-top-100-movies.p.rapidapi.com/")
+
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build().create(Top100ApiService::class.java)

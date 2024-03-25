@@ -15,8 +15,4 @@ import com.babacan05.cineme.feature_movie.domain.model.Title
             year = top100ListItemDTO.year
                 )
 
-
-
-
-
-}
+    }

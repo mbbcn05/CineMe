@@ -4,6 +4,8 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id ("kotlin-kapt")
+    id ("dagger.hilt.android.plugin")
+
 }
 
 android {
@@ -76,7 +78,12 @@ dependencies {
     //kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.fragment)
     implementation(libs.hilt.android.v248)
+  //  implementation (libs.androidx.hilt.lifecycle.viewmodel)
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+    implementation (libs.androidx.hilt.navigation.compose)
+
     kapt(libs.hilt.android.compiler.v248)
+
 //Room
     val room_version = "2.6.1"
 

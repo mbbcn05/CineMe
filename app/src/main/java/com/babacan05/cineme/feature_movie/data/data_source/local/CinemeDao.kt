@@ -14,8 +14,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CinemeDao {
 
-    @Query("SELECT ID FROM title_favoured_table WHERE favoured=1")
+    @Query("SELECT titleId  FROM title_favoured_table WHERE favoured=1")
     fun getFavouredTitleIds(): Flow<List<String>>
+
+    @Upsert
+    suspend fun updateFavouredTitle(titles: FavouredTitle)
 
     @Query("SELECT * FROM table_title WHERE searchedText =:search")
     suspend fun getTitlesBySearch(search: String):Titles?
@@ -29,11 +32,9 @@ interface CinemeDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTitles(titles: Titles)
 
-    @Upsert
-    suspend fun updateFavouredTitle(titles: FavouredTitle)
 
-    @Query("SELECT * FROM title_top100 ")
-    suspend fun getTop100Title(): Flow<List<Title>>
+    @Query("SELECT * FROM title ")
+     fun getTop100Title(): Flow<List<Title>?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTop100Title(title: Title)
