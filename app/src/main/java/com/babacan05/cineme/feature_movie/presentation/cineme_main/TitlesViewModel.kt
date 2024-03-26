@@ -3,11 +3,13 @@ package com.babacan05.cineme.feature_movie.presentation.cineme_main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.babacan05.cineme.feature_movie.domain.model.FavouredTitle
 import com.babacan05.cineme.feature_movie.domain.use_case.CinemeUseCases
 import com.babacan05.cineme.feature_movie.domain.util.DataResult
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,13 +25,35 @@ class TitlesViewModel @Inject constructor(
     val titlesState: StateFlow<TitlesState> get() = _titlesState.asStateFlow()
 init {
     viewModelScope.launch {
+        val top100Result = async { loadTop100Titles() }
+        val loadFavouredList = async {loadFavouredList() }
+        val loadFavouredIdList=async { loadFavouredIdList()}
+
+        top100Result.await()
+        loadFavouredList.await()
+        loadFavouredIdList.await()
+
+    }
 
 
-        // "harry" aramasını yap, tamamlandığında sonucu al
-        val top100Result = async { loadTop100Titles() }.await()
-           }
 }
-    suspend fun loadTop100Titles() {
+
+  suspend  private fun loadFavouredIdList() {
+      cinemeUseCases.getFavouredTitleIds().collect{result->
+          _titlesState.update {
+              it.copy(favouredIdList = result)
+          }
+
+
+      }
+    }
+
+    suspend private fun loadFavouredList() {
+        delay(5000)
+_titlesState.value.listFavouredTitles=_titlesState.value.listTop100Titles.filter { title-> title.id in _titlesState.value.favouredIdList }
+    }
+
+    private  suspend fun loadTop100Titles() {
         cinemeUseCases.getTop100Title().collect { result ->
             _titlesState.update {
                 it.copy(listTop100Titles = result)
@@ -38,8 +62,17 @@ init {
 
     }
 
+ fun onEvent(event:TitlesEvent){
+viewModelScope.launch {  when(event){
 
-    suspend fun gethMovies(search: String) {
+    is TitlesEvent.SetFavoured -> cinemeUseCases.updateFavouredTitle(FavouredTitle(titleId = event.titleId, favoured =event.isFavoured))
+    is TitlesEvent.SearchTitle -> getMovies(event.search)
+}
+}
+
+ }
+
+   private suspend fun getMovies(search: String) {
         cinemeUseCases.getTitles(search).collect { result ->
             when (result) {
                 is DataResult.Success -> _titlesState.update {
@@ -55,7 +88,7 @@ init {
 
 
     }
-suspend fun getActors(search: String){
+private suspend fun getActors(search: String){
     cinemeUseCases.getTitles(search).collect{result->
         when(result){
             is DataResult.Error -> TODO()

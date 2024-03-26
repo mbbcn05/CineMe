@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CinemeDao {
 
-    @Query("SELECT titleId  FROM title_favoured_table WHERE favoured=1")
+    @Query("SELECT titleId  FROM title_favoured_table WHERE favoured=true")
     fun getFavouredTitleIds(): Flow<List<String>>
 
     @Upsert

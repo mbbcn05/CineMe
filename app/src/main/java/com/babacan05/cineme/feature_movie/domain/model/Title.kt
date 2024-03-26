@@ -21,8 +21,7 @@ data class Title(
 
 @Entity(tableName ="title_favoured_table")
 data class FavouredTitle(
-    @PrimaryKey(autoGenerate = true) val id:Int,
-    val titleId:String="",
+    @PrimaryKey(autoGenerate = false) val titleId:String="",
     val favoured:Boolean=false
 
 )
