@@ -6,5 +6,5 @@ data class NodeXX(
     val category: Category,
     val characters: List<Character>,
     val episodeCredits: EpisodeCredits,
-    val name: Name
+    val name: Name?
 )

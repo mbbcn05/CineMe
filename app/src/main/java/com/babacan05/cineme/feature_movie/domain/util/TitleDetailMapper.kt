@@ -10,13 +10,13 @@ import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
         return TitleDetail(
             id=titleDetailDTO.id,
             name=titleDetailDTO.titleText.text,
-            cast =titleDetailDTO.cast.edges.map {
-                Actor(
-                    name = it.node.name.nameText.text,
-                    imageUrl = it.node.name.primaryImage.url,
-                    character = it.node.characters[0].name
+            cast =titleDetailDTO.cast?.edges?.map {
+               Actor(
+                    name = it.node?.name?.nameText?.text ?: "",
+                    imageUrl = it.node?.name?.primaryImage?.url ?: "",
+                    character = it.node!!.characters[0].name
                 )
-            },
+            } ?: emptyList(),
             imageUrl = titleDetailDTO.primaryImage.url,
             videoUrl = titleDetailDTO.primaryVideos.edges[0].node.playbackURLs[0].url,
             rating = titleDetailDTO.ratingsSummary.aggregateRating,

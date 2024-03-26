@@ -13,6 +13,7 @@ import com.babacan05.cineme.feature_movie.data.repository.CinemeRepositoryImpl
 import com.babacan05.cineme.feature_movie.domain.repository.CinemeRepository
 import com.babacan05.cineme.feature_movie.domain.use_case.CinemeUseCases
 import com.babacan05.cineme.feature_movie.domain.use_case.GetFavouredTitleIds
+import com.babacan05.cineme.feature_movie.domain.use_case.GetFavouredTitles
 import com.babacan05.cineme.feature_movie.domain.use_case.GetTitleDetail
 import com.babacan05.cineme.feature_movie.domain.use_case.GetTitles
 import com.babacan05.cineme.feature_movie.domain.use_case.GetTop100Title
@@ -112,7 +113,8 @@ class CinemeAppModule {
             getTitleDetail = GetTitleDetail(repository),
             updateFavouredTitle = UpdateFavouredTitle(repository),
             getFavouredTitleIds= GetFavouredTitleIds(repository),
-            getTop100Title = GetTop100Title(repository)
+            getTop100Title = GetTop100Title(repository),
+            getFavouredTitles = GetFavouredTitles(repository)
         )
     }
 

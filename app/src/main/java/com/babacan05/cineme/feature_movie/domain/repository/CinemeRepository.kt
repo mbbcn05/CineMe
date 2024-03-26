@@ -14,4 +14,5 @@ interface CinemeRepository {
     suspend fun getFavouredTitleIdList(): Flow<List<String>>
   suspend fun updateFavouredTitleID(favouredTitles: FavouredTitle)
   suspend fun getTop100Title(): Flow<List<Title>>
+  suspend fun getFavouredTitles(): Flow<List<Title>>
 }

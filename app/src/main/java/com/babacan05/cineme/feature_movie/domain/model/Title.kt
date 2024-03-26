@@ -16,7 +16,8 @@ data class Title(
     val imageUrl:String,
     val rank: Double =0.0,
     val description:String="",
-   val year:Int=0
+   val year:Int=0,
+    val isTop100:Boolean=false
 )
 
 @Entity(tableName ="title_favoured_table")
@@ -25,5 +26,3 @@ data class FavouredTitle(
     val favoured:Boolean=false
 
 )
-
-

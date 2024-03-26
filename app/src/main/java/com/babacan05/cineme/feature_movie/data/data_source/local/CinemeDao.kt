@@ -32,10 +32,12 @@ interface CinemeDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTitles(titles: Titles)
 
-
-    @Query("SELECT * FROM title ")
+    @Query("SELECT * FROM title WHERE isTop100=true ")
      fun getTop100Title(): Flow<List<Title>?>
 
+    @Query("SELECT * FROM title  ")
+    fun getAllTitle(): Flow<List<Title>>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTop100Title(title: Title)
+    suspend fun insertTitle(title: Title)
 }

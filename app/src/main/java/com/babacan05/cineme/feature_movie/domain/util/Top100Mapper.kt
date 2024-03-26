@@ -12,7 +12,8 @@ import com.babacan05.cineme.feature_movie.domain.model.Title
             imageUrl = top100ListItemDTO.image,
             rank = top100ListItemDTO.rating.toDouble(),
             description = top100ListItemDTO.description,
-            year = top100ListItemDTO.year
+            year = top100ListItemDTO.year,
+            isTop100 = true
                 )
 
     }

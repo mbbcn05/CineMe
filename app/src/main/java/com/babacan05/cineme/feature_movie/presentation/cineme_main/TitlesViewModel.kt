@@ -49,8 +49,14 @@ init {
     }
 
     suspend private fun loadFavouredList() {
-        delay(5000)
-_titlesState.value.listFavouredTitles=_titlesState.value.listTop100Titles.filter { title-> title.id in _titlesState.value.favouredIdList }
+        cinemeUseCases.getFavouredTitles().collect{result->
+            _titlesState.update {
+                it.copy(listFavouredTitles = result)
+            }
+
+
+        }
+
     }
 
     private  suspend fun loadTop100Titles() {
