@@ -47,8 +47,8 @@ class MainActivity : ComponentActivity() {
                         composable(route = Screen.TitlesScreen.route) {
 
                             TitlesScreen(onTitleClick = { titleId ->
-                                navController.navigate(Screen.TitleDetailScreen.route + "/${titleId}")
-                            })
+                                  navController.navigate(Screen.TitleDetailScreen.route + "/${titleId}")
+                                })
 
                         }
                         composable(Screen.TitleDetailScreen.route + "/{titleId}", arguments = listOf(
