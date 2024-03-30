@@ -29,7 +29,7 @@ val state = viewModel.detailState.collectAsState().value
     Column {
  when(state.detailResult){
      is DataResult.Error -> LoadingAnimation(isLoading = true)
-     is DataResult.Success -> DetailScreenMenu((state.detailResult).data, viewModel =viewModel)
+     is DataResult.Success -> DetailScreenMenu((state.detailResult).data, viewModel =viewModel,popUp=popUp)
 
  }
 

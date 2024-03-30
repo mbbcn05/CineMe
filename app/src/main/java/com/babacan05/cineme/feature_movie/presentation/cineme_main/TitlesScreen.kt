@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -128,9 +129,9 @@ fun TitlesScreen(
                         searchedText = it
                     },
                     singleLine = true,
-                    label = { Text("Search in All Movies", color = Color.Blue) },
+                    label = { Text("Search in All Movies", color =  Color(0xFFBC6C25)) },
                     modifier = Modifier.fillMaxWidth(),
-                    textStyle =TextStyle(color = Color.Blue, textDecoration = TextDecoration.None) // Yazı rengini beyaz olarak ayarla
+                    textStyle =TextStyle(color = Color.White, textDecoration = TextDecoration.None) // Yazı rengini beyaz olarak ayarla
                 )
             }
         }
@@ -148,7 +149,7 @@ fun TitlesScreen(
                 )
             }}
         Spacer(modifier = Modifier.height(10.dp))
-Text(text = "TOP 100 MOVİES", color = Color.White)
+Text( fontWeight = FontWeight.Bold,text = "TOP 100 MOVİES", color = Color(0xFFBC6C25))
         LazyRow {
             items(titlesState.value.listTop100Titles) { title ->
               TitleItem(
@@ -159,7 +160,7 @@ Text(text = "TOP 100 MOVİES", color = Color.White)
         }
     }
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "YOUR FAVOURİTE MOVİES", color = Color.White)
+        Text( fontWeight = FontWeight.Bold,text = "YOUR FAVOURİTE MOVİES", color =  Color(0xFFBC6C25))
         LazyRow {
             items(titlesState.value.listFavouredTitles) { title ->
                 TitleItem(
