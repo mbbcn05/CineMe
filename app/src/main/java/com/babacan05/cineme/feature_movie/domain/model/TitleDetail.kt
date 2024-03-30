@@ -12,7 +12,7 @@ data class TitleDetail(
     val name:String,
     val cast:List<Actor>,
     val imageUrl:String,
-    val videoUrl:String,
+    val videoUrls:List<String>,
     val rating: Double,
     val releaseYear: Int,
     val plot:String,

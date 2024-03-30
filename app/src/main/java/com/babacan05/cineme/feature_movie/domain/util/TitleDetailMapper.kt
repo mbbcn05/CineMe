@@ -18,7 +18,7 @@ import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
                 )
             } ?: emptyList(),
             imageUrl = titleDetailDTO.primaryImage.url,
-            videoUrl = titleDetailDTO.primaryVideos.edges[0].node.playbackURLs[0].url,
+            videoUrls = titleDetailDTO.primaryVideos.edges[0].node.playbackURLs.map { it.url },
             rating = titleDetailDTO.ratingsSummary.aggregateRating,
             releaseYear = titleDetailDTO.releaseYear.year,
             plot = titleDetailDTO.plot.plotText.plainText,

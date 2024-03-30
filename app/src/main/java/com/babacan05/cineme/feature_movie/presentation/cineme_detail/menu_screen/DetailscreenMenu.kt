@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -53,7 +52,6 @@ import com.babacan05.cineme.feature_movie.presentation.cineme_detail.review_scre
 
 @Composable
 fun DetailScreenMenu(data: TitleDetail, viewModel: DetailViewModel, popUp: () -> Boolean) {
-    val scrollState = rememberScrollState()
     val detailState = viewModel.detailState.collectAsState()
 
     var heartAnimation by remember {
@@ -69,7 +67,7 @@ fun DetailScreenMenu(data: TitleDetail, viewModel: DetailViewModel, popUp: () ->
                 .align(Alignment.TopCenter)
 
         ) {
-            VideoPlayerExo(videoUrl = data.videoUrl, viewModel = viewModel)
+            VideoPlayerExo(videoUrls = data.videoUrls, viewModel = viewModel)
 
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {

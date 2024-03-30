@@ -37,7 +37,7 @@ class DetailViewModel  @Inject constructor(
              _detailState.update { it.copy(detailResult =dataResult) }
 when(dataResult){
     is DataResult.Error -> {dataResult.message}
-    is DataResult.Success -> println(dataResult.data.videoUrl)
+    is DataResult.Success ->{} //println(dataResult.data.videoUrl)
 }
 
          }
