@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface TitleDetailApiService {
 
     @Headers(
-        "X-RapidAPI-Key: df0e0b9ff7msh5e0b3c6e26ff767p1b6b6bjsn264a19ea3f64",
+        "X-RapidAPI-Key:**********",
         "X-RapidAPI-Host: imdb146.p.rapidapi.com"
     )
     @GET("/v1/title")
