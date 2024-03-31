@@ -50,7 +50,7 @@ fun ReviewScreen(data: TitleDetail){
             Spacer(modifier = Modifier.height(300.dp- scrollState.value.dp/5))
             Text( fontWeight = FontWeight.Bold,text = "Review", color = Color(0xFFBC6C25), modifier = Modifier.align(Alignment.Start), fontSize = 20.sp)
             Text(text =data.review, color = Color.White, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(100.dp))
         }
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)

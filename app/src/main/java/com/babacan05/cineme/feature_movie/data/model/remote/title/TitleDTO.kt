@@ -4,6 +4,4 @@ data class TitleDTO(
     val d: List<Content>,
     val q: String,
     val v: Int
-) {
-    constructor() : this(emptyList(), "", 0)
-}
+)

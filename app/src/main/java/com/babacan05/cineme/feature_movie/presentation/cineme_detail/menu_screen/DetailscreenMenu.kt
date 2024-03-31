@@ -1,5 +1,6 @@
 package com.babacan05.cineme.feature_movie.presentation.cineme_detail.menu_screen
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -37,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.babacan05.cineme.feature_movie.domain.model.TitleDetail
@@ -57,6 +59,8 @@ fun DetailScreenMenu(data: TitleDetail, viewModel: DetailViewModel, popUp: () ->
     var heartAnimation by remember {
         mutableStateOf(false)
     }
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     Box(Modifier.fillMaxSize()) {
 
         Column(
@@ -67,10 +71,10 @@ fun DetailScreenMenu(data: TitleDetail, viewModel: DetailViewModel, popUp: () ->
                 .align(Alignment.TopCenter)
 
         ) {
-            VideoPlayerExo(videoUrls = data.videoUrls, viewModel = viewModel)
+            VideoPlayerExo(videoUrls = data.videoUrls, viewModel = viewModel,isLandscape=isLandscape)
 
 
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
                     text = data.name.uppercase(),
                     color =  Color(0xFFCCD5AE),
@@ -87,6 +91,7 @@ fun DetailScreenMenu(data: TitleDetail, viewModel: DetailViewModel, popUp: () ->
                             )
                     )
                 }
+
                 IconButton(
                     onClick = {
 
@@ -127,52 +132,78 @@ fun DetailScreenMenu(data: TitleDetail, viewModel: DetailViewModel, popUp: () ->
 
 
         }
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .height(100.dp)
-                .padding(horizontal = 80.dp)
-        ) {
-
-            Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically,
+        if(!isLandscape) {
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 30.dp)
                     .align(Alignment.BottomCenter)
-                    .height(60.dp)
-                    .background(
-                        Color(0xFFCCD5AE),
-                        RoundedCornerShape(20.dp)
-                    )
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .padding(horizontal = 80.dp)
             ) {
 
-              IconButton(onClick = { viewModel.setMenuState(ACTORS) }) {
-                  Icon(imageVector = Icons.Outlined.Home, contentDescription ="" , tint = Color(0xFFBC6C25)
-                  )
-              }
-                IconButton(onClick = { viewModel.setMenuState(REVIEW) }) {
-                    Icon(imageVector = Icons.Outlined.AccountCircle, contentDescription =""  , tint = Color(0xFFBC6C25))
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 30.dp)
+                        .align(Alignment.BottomCenter)
+                        .height(60.dp)
+                        .background(
+                            Color(0xFFCCD5AE),
+                            RoundedCornerShape(20.dp)
+                        )
+                ) {
+
+                    IconButton(onClick = { viewModel.setMenuState(ACTORS) }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Home,
+                            contentDescription = "",
+                            tint = Color(0xFFBC6C25)
+                        )
+                    }
+                    IconButton(onClick = { viewModel.setMenuState(REVIEW) }) {
+                        Icon(
+                            imageVector = Icons.Outlined.AccountCircle,
+                            contentDescription = "",
+                            tint = Color(0xFFBC6C25)
+                        )
+
+                    }
+                    IconButton(onClick = { viewModel.setMenuState(MORELIKES) }) {
+                        Icon(
+                            imageVector = Icons.Outlined.MoreVert,
+                            contentDescription = "",
+                            tint = Color(0xFFBC6C25)
+                        )
+                    }
+
 
                 }
-                IconButton(onClick = { viewModel.setMenuState(MORELIKES) }) {
-                    Icon(imageVector = Icons.Outlined.MoreVert, contentDescription ="" , tint =Color(0xFFBC6C25) )
-                }
-
-
-
+                MiniBox(
+                    modifier = Modifier.align(Alignment.BottomStart),
+                    detailState = detailState,
+                    menustate = ACTORS
+                )
+                MiniBox(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    detailState = detailState,
+                    menustate = REVIEW
+                )
+                MiniBox(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    detailState = detailState,
+                    menustate = MORELIKES
+                )
 
 
             }
-          MiniBox(modifier = Modifier.align(Alignment.BottomStart), detailState = detailState, menustate = ACTORS )
-            MiniBox(modifier = Modifier.align(Alignment.BottomCenter), detailState = detailState, menustate = REVIEW )
-            MiniBox(modifier = Modifier.align(Alignment.BottomEnd), detailState = detailState, menustate = MORELIKES )
-
+            IconButton(onClick ={popUp()}) {
+                Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription ="", tint = Color.Green )
+            }
 
         }
-IconButton(onClick ={popUp()}) {
-    Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription ="", tint = Color.Green )
-}
+
         if (heartAnimation) {
             DetailHeartAnimation()
         }

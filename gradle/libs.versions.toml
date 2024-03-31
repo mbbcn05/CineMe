@@ -3,6 +3,7 @@ agp = "8.3.1"
 coilCompose = "2.5.0"
 composeVideo = "2.18.1"
 converterGson = "2.9.0"
+coreSplashscreen = "1.0.1"
 exoplayer = "2.19.1"
 exoplayerVersion = "2.18.1"
 hiltAndroid = "2.51"
@@ -31,6 +32,7 @@ material3Android = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-hilt-lifecycle-viewmodel = { module = "androidx.hilt:hilt-lifecycle-viewmodel", version.ref = "hiltLifecycleViewmodel" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationFragment" }
 androidx-hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigationFragment" }

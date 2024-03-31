@@ -13,11 +13,10 @@ import com.babacan05.cineme.feature_movie.domain.model.Titles
                 Title(
                     id = it.id,
                     name = it.l,
-                    imageUrl = it.i.imageUrl
+                    imageUrl = it.i?.imageUrl ?:"https://www.kitapmagazin.com/wp-content/uploads/2021/10/3-1-850x491.jpg"
                 )
             }
 
 
         )
-
-}
+    }

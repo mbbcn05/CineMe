@@ -83,9 +83,11 @@ viewModelScope.launch {  when(event){
             when (result) {
                 is DataResult.Success -> _titlesState.update {
                     it.copy(listSearchedTitles = result.data.movieList.filter { title-> title.id.startsWith("tt") }) }
-                is DataResult.Error -> _titlesState.update {
+                is DataResult.Error -> {_titlesState.update {
                     it.copy(listSearchedTitles = emptyList())
+
                 }
+                println("heeey"+result.message)}
 
             }
 

@@ -10,5 +10,5 @@ data class Content(
     val y: Int,
     val yr: String?,
     val v: List<Video>?,
-    val i: Image
+    val i: Image?
 )

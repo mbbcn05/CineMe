@@ -11,8 +11,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -69,27 +71,19 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun TitlesScreen(
     viewModel: TitlesViewModel = hiltViewModel(), onTitleClick: (String)->Unit
 ) {
 
 
-    val customTextFieldColors = TextFieldDefaults.textFieldColors(
-        focusedTextColor = Color.White,
-        unfocusedTextColor = Color.White.copy(alpha = 0.7f),
-        cursorColor = Color.Black,
-        focusedIndicatorColor = Color.Blue,
-        unfocusedIndicatorColor = Color.Black,
-        disabledIndicatorColor = Color.Transparent,
 
-
-    )
   val titlesState=viewModel.titlesState.collectAsState()
     val scrollState = rememberScrollState()
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(Color.Black)
             .padding(16.dp)
             .verticalScroll(scrollState)
@@ -140,7 +134,7 @@ fun TitlesScreen(
 
         LazyRow {
             
-            items(titlesState.value.listSearchedTitles) { title ->
+            items(titlesState.value.listSearchedTitles,key ={it.id}) { title ->
                 TitleItem(
                     title = title,
                     onTitleClick =onTitleClick,
@@ -151,7 +145,7 @@ fun TitlesScreen(
         Spacer(modifier = Modifier.height(10.dp))
 Text( fontWeight = FontWeight.Bold,text = "TOP 100 MOVİES", color = Color(0xFFBC6C25))
         LazyRow {
-            items(titlesState.value.listTop100Titles) { title ->
+            items(titlesState.value.listTop100Titles,key ={it.id}) { title ->
               TitleItem(
                   title = title, onTitleClick =onTitleClick,
                   setFavourate ={ isFavoured->viewModel.onEvent(TitlesEvent.SetFavoured(title.id,isFavoured))},
@@ -161,13 +155,16 @@ Text( fontWeight = FontWeight.Bold,text = "TOP 100 MOVİES", color = Color(0xFFB
     }
         Spacer(modifier = Modifier.height(10.dp))
         Text( fontWeight = FontWeight.Bold,text = "YOUR FAVOURİTE MOVİES", color =  Color(0xFFBC6C25))
-        LazyRow {
-            items(titlesState.value.listFavouredTitles) { title ->
-                TitleItem(
-                    title = title,
-                    onTitleClick =onTitleClick,
-                    { isFavoured -> viewModel.onEvent(TitlesEvent.SetFavoured(title.id, isFavoured)) },
-                    state =titlesState
-                )
+        LazyRow (){
+            items(titlesState.value.listFavouredTitles,key ={it.id}) { title ->
+                   TitleItem(
+                       title = title,
+                       onTitleClick =onTitleClick,
+                       { isFavoured -> viewModel.onEvent(TitlesEvent.SetFavoured(title.id, isFavoured)) },
+                       state =titlesState,
+                       modifier = Modifier.animateItemPlacement(tween(1000, easing = LinearEasing))
+                   )
+
+
             }}
 }}

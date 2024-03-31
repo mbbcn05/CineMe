@@ -41,14 +41,15 @@ fun TitleItem(
     title: Title,
     onTitleClick: (String) -> Unit,
     setFavourate: (Boolean) -> Unit,
-    state: State<TitlesState>
+    state: State<TitlesState>,
+    modifier:Modifier=Modifier
 ){
 var heartAnimation by remember {
     mutableStateOf(false)
 }
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
+        modifier = modifier
             .padding(16.dp)
             .size(200.dp)
             .clip(RoundedCornerShape(20.dp))

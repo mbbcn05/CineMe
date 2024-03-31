@@ -9,10 +9,9 @@ import androidx.annotation.RequiresApi
 
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 
 import androidx.compose.material3.Surface
-
-
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -22,15 +21,15 @@ import androidx.navigation.navArgument
 import com.babacan05.cineme.feature_movie.presentation.cineme_detail.DetailScreen
 import com.babacan05.cineme.feature_movie.presentation.cineme_main.TitlesScreen
 import com.babacan05.cineme.feature_movie.presentation.utils.Screen
-
 import com.babacan05.cineme.ui.theme.CineMeTheme
+
+
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -47,26 +46,28 @@ class MainActivity : ComponentActivity() {
                         composable(route = Screen.TitlesScreen.route) {
 
                             TitlesScreen(onTitleClick = { titleId ->
-                                  navController.navigate(Screen.TitleDetailScreen.route + "/${titleId}")
-                                })
+                                navController.navigate(Screen.TitleDetailScreen.route + "/${titleId}")
+                            })
 
                         }
-                        composable(Screen.TitleDetailScreen.route + "/{titleId}", arguments = listOf(
+                        composable(
+                            Screen.TitleDetailScreen.route + "/{titleId}", arguments = listOf(
                             navArgument("titleId"){
                                 type= NavType.StringType
                             }
                         )) { backStackEntry ->
                             val titleId = backStackEntry.arguments?.getString("titleId")
-                           DetailScreen(titleId = titleId!!) { navController.popBackStack() }
+                            DetailScreen(titleId = titleId!!) { navController.popBackStack() }
                         }
                     }
                 }
 
 
-                        }
+            }
 
 
-                    }
+        }
+
                 }
 
             }
